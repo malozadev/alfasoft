@@ -154,7 +154,7 @@
                                     Showing <span class="font-semibold">{{ $contacts->firstItem() }}</span> to <span class="font-semibold">{{ $contacts->lastItem() }}</span> of <span class="font-semibold">{{ $contacts->total() }}</span> results
                                 </div>
                                 <div>
-                                    {{ $contacts->links('vendor.pagination.tailwind') }}
+                                    {{ $contacts->links() }}
                                 </div>
                             </div>
                         </div>
@@ -164,17 +164,17 @@
         </div>
     </div>
 
-    @auth
-        @section('scripts')
+    @push('scripts')
+        @auth
         <script>
             function confirmDelete(id, name) {
-                // Verificação de segurança adicional antes de confirmar
+                // Additional security check before confirmation
                 if (confirm(`Are you sure you want to delete the contact "${name}"? This action cannot be undone.`)) {
                     const form = document.createElement('form');
                     form.method = 'POST';
                     form.action = `/contacts/${id}`;
 
-                    // Obtém o token CSRF. Certifique-se de que a tag <meta name="csrf-token" content="..."> está no seu layout.
+                    // Get the CSRF token.
                     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
                     const csrfInput = document.createElement('input');
@@ -194,6 +194,6 @@
                 }
             }
         </script>
-        @endsection
-    @endauth
+        @endauth
+    @endpush
 </x-app-layout>
