@@ -1,3 +1,7 @@
+@php
+use Illuminate\Support\Str;
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
@@ -95,7 +99,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $contact->email }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $contact->contact }}</td>
                                         <td class="px-6 py-4 text-gray-900">
-                                            {{ $contact->address ? Str::limit($contact->address, 30) : 'No address' }}
+                                            {{ Str::limit($contact->address, 30, '...') ?? 'No address' }}
                                         </td>
                                         @auth
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2">
@@ -160,31 +164,31 @@
     </div>
 
     @section('scripts')
-    <script>
-        function confirmDelete(id, name) {
-            if (confirm(`Are you sure you want to delete the contact "${name}"? This action cannot be undone.`)) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = `/contacts/${id}`;
+        <script>
+            function confirmDelete(id, name) {
+                if (confirm(`Are you sure you want to delete the contact "${name}"? This action cannot be undone.`)) {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = `/contacts/${id}`;
 
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-                const csrfInput = document.createElement('input');
-                csrfInput.type = 'hidden';
-                csrfInput.name = '_token';
-                csrfInput.value = csrfToken;
+                    const csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = '_token';
+                    csrfInput.value = csrfToken;
 
-                const methodInput = document.createElement('input');
-                methodInput.type = 'hidden';
-                methodInput.name = '_method';
-                methodInput.value = 'DELETE';
+                    const methodInput = document.createElement('input');
+                    methodInput.type = 'hidden';
+                    methodInput.name = '_method';
+                    methodInput.value = 'DELETE';
 
-                form.appendChild(csrfInput);
-                form.appendChild(methodInput);
-                document.body.appendChild(form);
-                form.submit();
+                    form.appendChild(csrfInput);
+                    form.appendChild(methodInput);
+                    document.body.appendChild(form);
+                    form.submit();
+                }
             }
-        }
-    </script>
+        </script>
     @endsection
 </x-app-layout>
