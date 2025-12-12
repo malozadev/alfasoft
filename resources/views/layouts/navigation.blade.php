@@ -112,7 +112,6 @@
             @guest
                 <div class="px-4 space-y-1">
                     <a href="{{ route('login') }}" class="block text-gray-700 hover:text-gray-900">Login</a>
-                    <a href="{{ route('register') }}" class="block text-gray-700 hover:text-gray-900">Register</a>
                 </div>
             @endguest
         </div>
