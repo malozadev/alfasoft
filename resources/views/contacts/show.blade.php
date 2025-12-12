@@ -185,7 +185,7 @@
                                     <i class="fas fa-edit me-2"></i>Edit Contact
                                 </a>
                                 <button type="button"
-                                    onclick="confirmDelete({{ $contact->id }}, '{{ addslashes($contact->name) }}')"
+                                    onclick="return confirmDelete({{ $contact->id }}, '{{ addslashes($contact->name) }}')"
                                     class="btn btn-danger d-flex align-items-center">
                                     <i class="fas fa-trash me-2"></i>Delete Contact
                                 </button>
@@ -227,12 +227,10 @@
             </div>
         </div>
     </div>
-</x-app-layout>
 
-@push('scripts')
+    {{-- Script inline para evitar problemas com @push --}}
     <script>
         function confirmDelete(id, name) {
-            // Use Bootstrap modal for better UX (optional)
             if (confirm(`Are you sure you want to delete the contact "${name}"? This action cannot be undone.`)) {
                 const form = document.createElement('form');
                 form.method = 'POST';
@@ -255,6 +253,7 @@
                 document.body.appendChild(form);
                 form.submit();
             }
+            return false;
         }
 
         // Copy to clipboard functionality
@@ -307,4 +306,4 @@
             }
         });
     </script>
-@endpush
+</x-app-layout>
