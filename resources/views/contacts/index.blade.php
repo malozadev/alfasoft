@@ -62,8 +62,6 @@
                             @endauth
                         </div>
                     @else
-
-
                         {{-- Table --}}
                         <div class="table-responsive">
                             <table class="table table-hover align-middle">
@@ -103,7 +101,7 @@
                                                             <i class="fas fa-edit me-1"></i>Edit
                                                         </a>
                                                         <button
-                                                            onclick="confirmDelete({{ $contact->id }}, '{{ addslashes($contact->name) }}')"
+                                                            onclick="return confirmDelete({{ $contact->id }}, '{{ addslashes($contact->name) }}')"
                                                             class="btn btn-danger btn-sm d-flex align-items-center">
                                                             <i class="fas fa-trash me-1"></i>Delete
                                                         </button>
@@ -132,9 +130,8 @@
             </div>
         </div>
     </div>
-</x-app-layout>
 
-@push('scripts')
+    {{-- Script inline para evitar problemas com @push --}}
     <script>
         function confirmDelete(id, name) {
             if (confirm(`Are you sure you want to delete the contact "${name}"? This action cannot be undone.`)) {
@@ -159,6 +156,7 @@
                 document.body.appendChild(form);
                 form.submit();
             }
+            return false;
         }
     </script>
-@endpush
+</x-app-layout>
