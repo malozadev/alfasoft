@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                <i class="fas fa-address-book mr-2"></i>{{ __('Contact Manager')
+                <i class="fas fa-address-book mr-2"></i>{{ __('Contact Manager') }}
             </h2>
             <div class="flex space-x-2">
                 <span class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
