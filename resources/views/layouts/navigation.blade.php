@@ -59,7 +59,6 @@
                     <!-- Links para visitantes -->
                     <div class="flex space-x-4">
                         <a href="{{ route('login') }}" class="text-sm text-gray-700 hover:text-gray-900">Login</a>
-                        <a href="{{ route('register') }}" class="text-sm text-gray-700 hover:text-gray-900">Register</a>
                     </div>
                 @endguest
             </div>
