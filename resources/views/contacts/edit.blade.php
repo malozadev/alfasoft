@@ -91,15 +91,16 @@
                             <!-- Address Field -->
                             <div class="col-12">
                                 <label for="address" class="form-label fw-medium">
-                                    Address
+                                    Address <span class="text-danger">*</span> <!-- Adicionado asterisco -->
                                 </label>
                                 <textarea name="address" id="address" rows="3" class="form-control @error('address') is-invalid @enderror"
-                                    placeholder="Enter full address">{{ old('address', $contact->address) }}</textarea>
+                                    placeholder="Enter full address" required>{{ old('address', $contact->address) }}</textarea>
                                 <div class="d-flex justify-content-between align-items-center mt-2">
                                     @error('address')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @else
-                                        <div class="form-text">Maximum 500 characters</div>
+                                        <div class="form-text">Minimum 5 characters, maximum 500 characters</div>
+                                        <!-- Atualizada a mensagem -->
                                     @enderror
                                     <div id="address-counter" class="text-muted small">0/500</div>
                                 </div>
@@ -167,8 +168,16 @@
                         addressCounter.classList.remove('text-muted');
                         addressCounter.classList.add('text-danger', 'fw-bold');
                         addressTextarea.classList.add('is-invalid');
+                    } else if (length > 0 && length < 5) {
+                        addressCounter.classList.remove('text-muted');
+                        addressCounter.classList.add('text-warning', 'fw-bold');
+                        addressTextarea.classList.add('is-invalid');
+                    } else if (length >= 5 && length <= 500) {
+                        addressCounter.classList.remove('text-danger', 'text-warning', 'fw-bold');
+                        addressCounter.classList.add('text-muted');
+                        addressTextarea.classList.remove('is-invalid');
                     } else {
-                        addressCounter.classList.remove('text-danger', 'fw-bold');
+                        addressCounter.classList.remove('text-danger', 'text-warning', 'fw-bold');
                         addressCounter.classList.add('text-muted');
                         addressTextarea.classList.remove('is-invalid');
                     }
@@ -182,13 +191,17 @@
             const editForm = document.getElementById('editForm');
             if (editForm) {
                 editForm.addEventListener('submit', function(e) {
+                    let hasError = false;
+
                     const contactValue = contactInput.value;
                     if (contactValue.length !== 9) {
                         e.preventDefault();
                         contactInput.classList.add('is-invalid');
-                        contactInput.focus();
+                        if (!hasError) {
+                            contactInput.focus();
+                            hasError = true;
+                        }
 
-                        // Create or update error message
                         let errorDiv = contactInput.nextElementSibling;
                         if (!errorDiv.classList.contains('invalid-feedback')) {
                             errorDiv = document.createElement('div');
@@ -197,11 +210,63 @@
                         }
                         errorDiv.textContent = 'Contact number must be exactly 9 digits.';
                     }
+
+                    // Validate address length
+                    if (addressTextarea && addressTextarea.value.length < 5) {
+                        e.preventDefault();
+                        addressTextarea.classList.add('is-invalid');
+                        if (!hasError) {
+                            addressTextarea.focus();
+                            hasError = true;
+                        }
+
+                        let errorDiv = addressTextarea.parentNode.querySelector('.invalid-feedback');
+                        if (!errorDiv) {
+                            errorDiv = document.createElement('div');
+                            errorDiv.className = 'invalid-feedback d-block';
+                            addressTextarea.parentNode.insertBefore(errorDiv, addressTextarea
+                                .nextElementSibling);
+                        }
+                        errorDiv.textContent = 'Address must be at least 5 characters long.';
+                    }
                 });
             }
 
             // Auto-focus on name field
             document.getElementById('name')?.focus();
+
+            // Real-time validation for address field
+            if (addressTextarea) {
+                addressTextarea.addEventListener('input', function() {
+                    if (this.value.length >= 5 && this.value.length <= 500) {
+                        this.classList.remove('is-invalid');
+                        this.classList.add('is-valid');
+                    } else if (this.value.length > 0 && this.value.length < 5) {
+                        this.classList.add('is-invalid');
+                        this.classList.remove('is-valid');
+                    } else if (this.value.length > 500) {
+                        this.classList.add('is-invalid');
+                        this.classList.remove('is-valid');
+                    } else {
+                        this.classList.remove('is-invalid', 'is-valid');
+                    }
+                });
+            }
+
+            // Real-time validation for contact field
+            if (contactInput) {
+                contactInput.addEventListener('input', function() {
+                    if (this.value.length === 9) {
+                        this.classList.remove('is-invalid');
+                        this.classList.add('is-valid');
+                    } else if (this.value.length > 0 && this.value.length !== 9) {
+                        this.classList.add('is-invalid');
+                        this.classList.remove('is-valid');
+                    } else {
+                        this.classList.remove('is-invalid', 'is-valid');
+                    }
+                });
+            }
         });
     </script>
 @endpush
