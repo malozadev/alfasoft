@@ -1,7 +1,3 @@
-@php
-    use Illuminate\Support\Str;
-@endphp
-
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
@@ -11,13 +7,12 @@
             </h2>
 
             <div class="flex flex-wrap gap-2 items-center">
-                <span
-                    class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                <span class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
                     {{ $contacts->total() }} Contacts
                 </span>
                 @auth
                     <a href="{{ route('contacts.create') }}"
-                        class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring focus:ring-blue-300 transition duration-150">
+                       class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring focus:ring-blue-300 transition duration-150">
                         <i class="fas fa-plus mr-2"></i>New Contact
                     </a>
                 @endauth
@@ -30,8 +25,7 @@
 
             {{-- Mensagens de sucesso ou erro --}}
             @if (session('success'))
-                <div
-                    class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg flex items-center">
+                <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg flex items-center">
                     <i class="fas fa-check-circle mr-2"></i>
                     <span>{{ session('success') }}</span>
                 </div>
@@ -54,7 +48,7 @@
                         <p class="text-gray-500 mb-6">Start by adding your first contact</p>
                         @auth
                             <a href="{{ route('contacts.create') }}"
-                                class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring focus:ring-blue-300 transition duration-150">
+                               class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring focus:ring-blue-300 transition duration-150">
                                 <i class="fas fa-plus mr-2"></i>Create First Contact
                             </a>
                         @endauth
@@ -62,75 +56,62 @@
                 @else
                     {{-- Search Form --}}
                     <div class="mb-6">
-                        <form action="{{ route('contacts.index') }}" method="GET"
-                            class="flex max-w-md mx-auto sm:mx-0">
-                            <input type="text" name="search"
-                                class="flex-1 rounded-l-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-3 py-2"
-                                placeholder="Search contacts..." value="{{ request('search') }}">
+                        <form action="{{ route('contacts.index') }}" method="GET" class="flex max-w-md mx-auto sm:mx-0">
+                            <input type="text"
+                                   name="search"
+                                   class="flex-1 rounded-l-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-3 py-2"
+                                   placeholder="Search contacts..."
+                                   value="{{ request('search') }}">
                             <button type="submit"
-                                class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                                 <i class="fas fa-search"></i>
                             </button>
                         </form>
                     </div>
 
-                    {{-- Table (Desktop) --}}
-                    <div class="hidden sm:block overflow-x-auto">
+                    {{-- Table --}}
+                    <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        ID</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Name</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Email</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Contact</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Address</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
                                     @auth
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Actions</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                     @endauth
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach ($contacts as $contact)
-                                    <tr class="hover:bg-blue-50 transition-colors duration-150">
+                                    <tr class="hover:bg-gray-50 transition-colors duration-150">
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <span
-                                                class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">#{{ $contact->id }}</span>
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">#{{ $contact->id }}</span>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $contact->name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $contact->email }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $contact->contact }}
-                                        </td>
-                                        <td class="px-6 py-4 text-gray-900">
+                                        <td class="px-6 py-4 whitespace-nowrap text-gray-900 font-medium">{{ $contact->name }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-gray-600">{{ $contact->email }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-gray-600">{{ $contact->contact }}</td>
+                                        <td class="px-6 py-4 text-gray-600">
                                             {{ Str::limit($contact->address, 30, '...') ?? 'No address' }}
                                         </td>
                                         @auth
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2">
-                                                <a href="{{ route('contacts.show', $contact->id) }}"
-                                                    class="text-blue-600 hover:text-white hover:bg-blue-600 px-2 py-1 rounded transition duration-150">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="{{ route('contacts.edit', $contact->id) }}"
-                                                    class="text-yellow-600 hover:text-white hover:bg-yellow-500 px-2 py-1 rounded transition duration-150">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <button
-                                                    onclick="confirmDelete({{ $contact->id }}, '{{ addslashes($contact->name) }}')"
-                                                    class="text-red-600 hover:text-white hover:bg-red-600 px-2 py-1 rounded transition duration-150">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex space-x-2">
+                                                    <a href="{{ route('contacts.show', $contact->id) }}"
+                                                       class="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150">
+                                                        <i class="fas fa-eye mr-1"></i>View
+                                                    </a>
+                                                    <a href="{{ route('contacts.edit', $contact->id) }}"
+                                                       class="inline-flex items-center px-3 py-1.5 bg-yellow-500 text-white text-xs font-medium rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition duration-150">
+                                                        <i class="fas fa-edit mr-1"></i>Edit
+                                                    </a>
+                                                    <button onclick="confirmDelete({{ $contact->id }}, '{{ addslashes($contact->name) }}')"
+                                                            class="inline-flex items-center px-3 py-1.5 bg-red-600 text-white text-xs font-medium rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition duration-150">
+                                                        <i class="fas fa-trash mr-1"></i>Delete
+                                                    </button>
+                                                </div>
                                             </td>
                                         @endauth
                                     </tr>
@@ -139,43 +120,10 @@
                         </table>
                     </div>
 
-                    {{-- Cards (Mobile) --}}
-                    <div class="sm:hidden grid gap-4">
-                        @foreach ($contacts as $contact)
-                            <div class="bg-white shadow-md rounded-lg p-4">
-                                <div class="flex justify-between items-center mb-2">
-                                    <div class="font-semibold text-gray-900">{{ $contact->name }}</div>
-                                    <div class="text-sm text-gray-500">#{{ $contact->id }}</div>
-                                </div>
-                                <div class="text-sm text-gray-700 mb-1">{{ $contact->email }}</div>
-                                <div class="text-sm text-gray-700 mb-1">{{ $contact->contact }}</div>
-                                <div class="text-sm text-gray-500 italic">{{ $contact->address ?? 'No address' }}</div>
-                                @auth
-                                    <div class="mt-2 flex space-x-2">
-                                        <a href="{{ route('contacts.show', $contact->id) }}"
-                                            class="text-blue-600 hover:text-white hover:bg-blue-600 px-2 py-1 rounded transition duration-150">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a href="{{ route('contacts.edit', $contact->id) }}"
-                                            class="text-yellow-600 hover:text-white hover:bg-yellow-500 px-2 py-1 rounded transition duration-150">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <button
-                                            onclick="confirmDelete({{ $contact->id }}, '{{ addslashes($contact->name) }}')"
-                                            class="text-red-600 hover:text-white hover:bg-red-600 px-2 py-1 rounded transition duration-150">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                @endauth
-                            </div>
-                        @endforeach
-                    </div>
-
                     {{-- Paginação --}}
                     <div class="mt-6 flex flex-col sm:flex-row justify-between items-center">
                         <div class="text-sm text-gray-700 mb-2 sm:mb-0">
-                            Showing {{ $contacts->firstItem() }} to {{ $contacts->lastItem() }} of
-                            {{ $contacts->total() }} results
+                            Showing {{ $contacts->firstItem() }} to {{ $contacts->lastItem() }} of {{ $contacts->total() }} results
                         </div>
                         <div>
                             {{ $contacts->links() }}
