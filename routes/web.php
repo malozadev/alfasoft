@@ -15,9 +15,8 @@ use App\Http\Controllers\ContactController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+#Route Index
+Route::get('/', [ContactController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
