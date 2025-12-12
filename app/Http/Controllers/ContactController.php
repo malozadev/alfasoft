@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth')->except(['index']);
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -39,7 +39,7 @@ class ContactController extends Controller
             'name' => 'required|string|min:5|max:255',
             'contact' => 'required|integer|unique:contacts,contact|digits:9',
             'email' => 'required|email|unique:contacts,email|max:255',
-            'address' => 'nullable|string|max:500',
+            'address' => 'required|string|min:5|max:500', // Alterado de nullable para required
         ], [
             // Name field messages
             'name.required' => 'Name is required.',
@@ -60,15 +60,13 @@ class ContactController extends Controller
             'email.max' => 'Email may not be greater than 255 characters.',
 
             // Address field messages
+            'address.required' => 'Address is required.',
             'address.string' => 'Address must be a string.',
+            'address.min' => 'Address must be at least 5 characters.',
             'address.max' => 'Address may not be greater than 500 characters.',
         ]);
 
         try {
-            if (empty(trim($validatedData['address']))) {
-                $validatedData['address'] = null;
-            }
-
             Contact::create($validatedData);
 
             return redirect()->route('contacts.index')
@@ -110,7 +108,7 @@ class ContactController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:contacts,email,' . $id . '|max:255',
             'contact' => 'required|integer|unique:contacts,contact,' . $id . '|digits:9',
-            'address' => 'nullable|string|max:500',
+            'address' => 'required|string|min:5|max:500',
         ], [
             // Name field messages
             'name.required' => 'Name is required.',
@@ -127,15 +125,13 @@ class ContactController extends Controller
             'contact.digits' => 'Contact must be exactly 9 digits.',
 
             // Address field messages
+            'address.required' => 'Address is required.',
             'address.string' => 'Address must be a string.',
+            'address.min' => 'Address must be at least 5 characters.',
             'address.max' => 'Address may not be greater than 500 characters.',
         ]);
 
         try {
-            if (isset($validatedData['address']) && empty(trim($validatedData['address']))) {
-                $validatedData['address'] = null;
-            }
-
             $contact->update($validatedData);
 
             return redirect()->route('contacts.index')
@@ -154,8 +150,6 @@ class ContactController extends Controller
     {
         try {
             $contact = Contact::findOrFail($id);
-
-            // Como não há tabelas relacionadas, podemos excluir diretamente
             $contact->delete();
 
             return redirect()->route('contacts.index')
