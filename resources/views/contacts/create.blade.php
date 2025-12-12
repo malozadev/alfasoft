@@ -1,127 +1,149 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                <i class="fas fa-plus-circle mr-2"></i>{{ __('Create New Contact') }}
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="h4 fw-semibold text-gray-800 mb-0 d-flex align-items-center">
+                <i class="fas fa-plus-circle me-2 text-success"></i>{{ __('Create New Contact') }}
             </h2>
-            <a href="{{ route('contacts.index') }}"
-               class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
-                <i class="fas fa-arrow-left mr-2"></i>Back to List
+            <a href="{{ route('contacts.index') }}" class="btn btn-outline-secondary btn-sm d-flex align-items-center">
+                <i class="fas fa-arrow-left me-2"></i>Back to List
             </a>
         </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
+    <div class="py-4">
+        <div class="container-fluid px-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0 d-flex align-items-center">
+                        <i class="fas fa-user-plus me-2 text-primary"></i>Contact Information
+                    </h5>
+                </div>
+                <div class="card-body">
                     @if ($errors->any())
-                        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                            <strong class="font-bold">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>Please correct the following errors:
-                            </strong>
-                            <ul class="mt-2 list-disc list-inside text-sm">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+                        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-exclamation-triangle me-2 fs-5"></i>
+                                <div>
+                                    <strong class="fw-bold">Please correct the following errors:</strong>
+                                    <ul class="mb-0 mt-1 ps-3">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
                         </div>
                     @endif
 
                     <form action="{{ route('contacts.store') }}" method="POST" id="contactForm">
                         @csrf
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="row g-3">
                             <!-- Name Field -->
-                            <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700 required-field">
-                                    Full Name
+                            <div class="col-md-6">
+                                <label for="name" class="form-label fw-medium">
+                                    Full Name <span class="text-danger">*</span>
                                 </label>
-                                <input type="text"
-                                       name="name"
-                                       id="name"
-                                       value="{{ old('name') }}"
-                                       class="mt-1 block w-full border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 rounded-md shadow-sm @error('name') border-red-300 @enderror"
-                                       placeholder="Enter full name (min. 5 characters)"
-                                       required>
+                                <input type="text" name="name" id="name" value="{{ old('name') }}"
+                                    class="form-control @error('name') is-invalid @enderror"
+                                    placeholder="Enter full name" required>
                                 @error('name')
-                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @else
-                                    <p class="mt-2 text-sm text-gray-500">Minimum 5 characters required</p>
+                                    <div class="form-text">Minimum 5 characters required</div>
                                 @enderror
                             </div>
 
                             <!-- Contact Field -->
-                            <div>
-                                <label for="contact" class="block text-sm font-medium text-gray-700 required-field">
-                                    Contact Number
+                            <div class="col-md-6">
+                                <label for="contact" class="form-label fw-medium">
+                                    Contact Number <span class="text-danger">*</span>
                                 </label>
-                                <input type="text"
-                                       name="contact"
-                                       id="contact"
-                                       value="{{ old('contact') }}"
-                                       maxlength="9"
-                                       class="mt-1 block w-full border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 rounded-md shadow-sm @error('contact') border-red-300 @enderror"
-                                       placeholder="Enter 9-digit number"
-                                       required>
+                                <input type="text" name="contact" id="contact" value="{{ old('contact') }}"
+                                    maxlength="9" class="form-control @error('contact') is-invalid @enderror"
+                                    placeholder="Enter 9-digit contact number" required>
                                 @error('contact')
-                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @else
-                                    <p class="mt-2 text-sm text-gray-500">Exactly 9 digits required</p>
+                                    <div class="form-text">Exactly 9 digits required</div>
                                 @enderror
                             </div>
 
                             <!-- Email Field -->
-                            <div>
-                                <label for="email" class="block text-sm font-medium text-gray-700 required-field">
-                                    Email Address
+                            <div class="col-md-6">
+                                <label for="email" class="form-label fw-medium">
+                                    Email Address <span class="text-danger">*</span>
                                 </label>
-                                <input type="email"
-                                       name="email"
-                                       id="email"
-                                       value="{{ old('email') }}"
-                                       class="mt-1 block w-full border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 rounded-md shadow-sm @error('email') border-red-300 @enderror"
-                                       placeholder="Enter valid email address"
-                                       required>
+                                <input type="email" name="email" id="email" value="{{ old('email') }}"
+                                    class="form-control @error('email') is-invalid @enderror"
+                                    placeholder="Enter email address" required>
                                 @error('email')
-                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <!-- Address Field -->
-                            <div class="md:col-span-2">
-                                <label for="address" class="block text-sm font-medium text-gray-700">
+                            <div class="col-12">
+                                <label for="address" class="form-label fw-medium">
                                     Address
                                 </label>
-                                <textarea name="address"
-                                          id="address"
-                                          rows="3"
-                                          class="mt-1 block w-full border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 rounded-md shadow-sm @error('address') border-red-300 @enderror"
-                                          placeholder="Enter address (optional)">{{ old('address') }}</textarea>
-                                <div class="flex justify-between items-center mt-2">
+                                <textarea name="address" id="address" rows="3" class="form-control @error('address') is-invalid @enderror"
+                                    placeholder="Enter full address (optional)">{{ old('address') }}</textarea>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
                                     @error('address')
-                                        <p class="text-sm text-red-600">{{ $message }}</p>
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @else
-                                        <p class="text-sm text-gray-500">Maximum 500 characters</p>
+                                        <div class="form-text">Maximum 500 characters</div>
                                     @enderror
-                                    <div id="address-counter" class="text-sm text-gray-500">0/500</div>
+                                    <div id="address-counter" class="text-muted small">0/500</div>
+                                </div>
+                            </div>
+
+                            <!-- Form Guidelines -->
+                            <div class="col-12">
+                                <div class="alert alert-light border d-flex mb-0">
+                                    <div class="me-3">
+                                        <i class="fas fa-lightbulb text-warning fs-4"></i>
+                                    </div>
+                                    <div class="small">
+                                        <strong>Guidelines:</strong>
+                                        <ul class="mb-0 mt-1">
+                                            <li>All fields marked with <span class="text-danger">*</span> are required
+                                            </li>
+                                            <li>Name must be at least 5 characters long</li>
+                                            <li>Contact number must be exactly 9 digits</li>
+                                            <li>Email must be unique and valid</li>
+                                            <li>Address is optional but limited to 500 characters</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="flex justify-end mt-6">
-                            <button type="submit"
-                                    class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
-                                <i class="fas fa-save mr-2"></i>Create Contact
-                            </button>
+                        <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                            <a href="{{ route('contacts.index') }}"
+                                class="btn btn-outline-secondary d-flex align-items-center">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                            <div class="d-flex gap-2">
+                                <button type="reset" class="btn btn-outline-danger d-flex align-items-center">
+                                    <i class="fas fa-redo me-2"></i>Clear Form
+                                </button>
+                                <button type="submit" class="btn btn-success d-flex align-items-center">
+                                    <i class="fas fa-save me-2"></i>Create Contact
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+</x-app-layout>
 
-    @section('scripts')
+@push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Allow only numbers in contact field
@@ -142,23 +164,108 @@
                     addressCounter.textContent = `${length}/500`;
 
                     if (length > 500) {
-                        addressCounter.classList.remove('text-gray-500');
-                        addressCounter.classList.add('text-red-600');
+                        addressCounter.classList.remove('text-muted');
+                        addressCounter.classList.add('text-danger', 'fw-bold');
+                        addressTextarea.classList.add('is-invalid');
                     } else {
-                        addressCounter.classList.remove('text-red-600');
-                        addressCounter.classList.add('text-gray-500');
+                        addressCounter.classList.remove('text-danger', 'fw-bold');
+                        addressCounter.classList.add('text-muted');
+                        addressTextarea.classList.remove('is-invalid');
                     }
                 }
 
                 addressTextarea.addEventListener('input', updateCounter);
-                updateCounter(); // Initial call ..
+                updateCounter(); // Initial call
             }
 
-            // Required field indicator
-            const style = document.createElement('style');
-            style.textContent = '.required-field::after { content: " *"; color: #dc3545; }';
-            document.head.appendChild(style);
+            // Form validation enhancement
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    // Validate contact length
+                    if (contactInput && contactInput.value.length !== 9) {
+                        e.preventDefault();
+                        contactInput.classList.add('is-invalid');
+                        contactInput.focus();
+
+                        // Create or update error message
+                        let errorDiv = contactInput.nextElementSibling;
+                        if (!errorDiv.classList.contains('invalid-feedback')) {
+                            errorDiv = document.createElement('div');
+                            errorDiv.className = 'invalid-feedback';
+                            contactInput.parentNode.insertBefore(errorDiv, contactInput.nextSibling);
+                        }
+                        errorDiv.textContent = 'Contact number must be exactly 9 digits.';
+                    }
+
+                    // Validate name length
+                    const nameInput = document.getElementById('name');
+                    if (nameInput && nameInput.value.length < 5) {
+                        e.preventDefault();
+                        nameInput.classList.add('is-invalid');
+                        nameInput.focus();
+
+                        let errorDiv = nameInput.nextElementSibling;
+                        if (!errorDiv.classList.contains('invalid-feedback')) {
+                            errorDiv = document.createElement('div');
+                            errorDiv.className = 'invalid-feedback';
+                            nameInput.parentNode.insertBefore(errorDiv, nameInput.nextSibling);
+                        }
+                        errorDiv.textContent = 'Name must be at least 5 characters long.';
+                    }
+                });
+            }
+
+            // Auto-focus on name field
+            document.getElementById('name')?.focus();
+
+            // Real-time validation for name field
+            const nameInput = document.getElementById('name');
+            if (nameInput) {
+                nameInput.addEventListener('input', function() {
+                    if (this.value.length >= 5) {
+                        this.classList.remove('is-invalid');
+                        this.classList.add('is-valid');
+                    } else if (this.value.length > 0 && this.value.length < 5) {
+                        this.classList.add('is-invalid');
+                        this.classList.remove('is-valid');
+                    } else {
+                        this.classList.remove('is-invalid', 'is-valid');
+                    }
+                });
+            }
+
+            // Real-time validation for contact field
+            if (contactInput) {
+                contactInput.addEventListener('input', function() {
+                    if (this.value.length === 9) {
+                        this.classList.remove('is-invalid');
+                        this.classList.add('is-valid');
+                    } else if (this.value.length > 0 && this.value.length !== 9) {
+                        this.classList.add('is-invalid');
+                        this.classList.remove('is-valid');
+                    } else {
+                        this.classList.remove('is-invalid', 'is-valid');
+                    }
+                });
+            }
+
+            // Real-time validation for email field
+            const emailInput = document.getElementById('email');
+            if (emailInput) {
+                emailInput.addEventListener('input', function() {
+                    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (emailPattern.test(this.value)) {
+                        this.classList.remove('is-invalid');
+                        this.classList.add('is-valid');
+                    } else if (this.value.length > 0) {
+                        this.classList.add('is-invalid');
+                        this.classList.remove('is-valid');
+                    } else {
+                        this.classList.remove('is-invalid', 'is-valid');
+                    }
+                });
+            }
         });
     </script>
-    @endsection
-</x-app-layout>
+@endpush
