@@ -49,7 +49,7 @@
                                 @auth
                                     Start by adding your first contact
                                 @else
-                                    No contacts to display. Log in to create new contacts.
+                                    No contacts to display. Please log in to manage them.
                                 @endauth
                             </p>
 
@@ -119,24 +119,25 @@
 
                                             @auth
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                    <div class="flex space-x-3">
+                                                    <div class="flex space-x-2 items-center">
+
                                                         <a href="{{ route('contacts.show', $contact->id) }}"
-                                                           class="text-indigo-600 hover:text-indigo-800 transition duration-150 hover:scale-110"
+                                                           class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-500 text-white shadow-md hover:bg-blue-600 transition duration-150 hover:scale-105"
                                                            title="View Details">
-                                                            <i class="fas fa-eye text-lg"></i>
+                                                            <i class="fas fa-eye text-xs"></i>
                                                         </a>
 
                                                         <a href="{{ route('contacts.edit', $contact->id) }}"
-                                                           class="text-amber-500 hover:text-amber-700 transition duration-150 hover:scale-110"
+                                                           class="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-500 text-white shadow-md hover:bg-yellow-600 transition duration-150 hover:scale-105"
                                                            title="Edit">
-                                                            <i class="fas fa-edit text-lg"></i>
+                                                            <i class="fas fa-edit text-xs"></i>
                                                         </a>
 
                                                         <button type="button"
-                                                                class="text-red-600 hover:text-red-800 transition duration-150 hover:scale-110"
+                                                                class="w-8 h-8 flex items-center justify-center rounded-full bg-red-500 text-white shadow-md hover:bg-red-600 transition duration-150 hover:scale-105"
                                                                 title="Delete"
                                                                 onclick="confirmDelete({{ $contact->id }}, '{{ addslashes($contact->name) }}')">
-                                                            <i class="fas fa-trash text-lg"></i>
+                                                            <i class="fas fa-trash text-xs"></i>
                                                         </button>
                                                     </div>
                                                 </td>
