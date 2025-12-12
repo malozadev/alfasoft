@@ -1,116 +1,238 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                <i class="fas fa-user-circle mr-2"></i>{{ __('Contact Details') }}
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="h4 fw-semibold text-gray-800 mb-0 d-flex align-items-center">
+                <i class="fas fa-user-circle me-2 text-info"></i>{{ __('Contact Details') }}
             </h2>
-            <div class="flex space-x-2">
-                <span class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                    ID: #{{ $contact->id }}
+            <div class="d-flex gap-2 align-items-center">
+                <span class="badge bg-info text-dark rounded-pill">
+                    <i class="fas fa-hashtag me-1"></i>ID: {{ $contact->id }}
                 </span>
                 <a href="{{ route('contacts.index') }}"
-                   class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
-                    <i class="fas fa-arrow-left mr-2"></i>Back
+                    class="btn btn-outline-secondary btn-sm d-flex align-items-center">
+                    <i class="fas fa-arrow-left me-2"></i>Back to List
                 </a>
             </div>
         </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            @if(session('success'))
-                <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-                    <strong class="font-bold">
-                        <i class="fas fa-check-circle mr-2"></i>Success!
-                    </strong>
-                    <span class="block sm:inline">{{ session('success') }}</span>
+    <div class="py-4">
+        <div class="container-fluid px-4">
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle me-2 fs-5"></i>
+                        <div>
+                            <strong class="fw-bold">Success!</strong>
+                            <span class="ms-2">{{ session('success') }}</span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
+            <div class="card shadow-sm">
+                <div class="card-body">
                     <!-- Contact Header -->
-                    <div class="flex items-start space-x-4 mb-8">
-                        <div class="flex-shrink-0">
-                            <div class="h-16 w-16 rounded-full bg-blue-100 flex items-center justify-center">
-                                <i class="fas fa-user text-blue-600 text-2xl"></i>
+                    <div class="d-flex align-items-start mb-4 pb-3 border-bottom">
+                        <div class="flex-shrink-0 me-4">
+                            <div class="bg-info bg-opacity-10 rounded-circle p-4">
+                                <i class="fas fa-user text-info fs-2"></i>
                             </div>
                         </div>
-                        <div>
-                            <h3 class="text-2xl font-bold text-gray-900">{{ $contact->name }}</h3>
-                            <p class="text-gray-600">Contact Information</p>
+                        <div class="flex-grow-1">
+                            <h3 class="h2 fw-bold text-gray-900 mb-1">{{ $contact->name }}</h3>
+                            <p class="text-muted mb-0">
+                                <i class="fas fa-info-circle me-1"></i>Contact Information
+                            </p>
+                            <div class="mt-2">
+                                <span class="badge bg-light text-dark border me-2">
+                                    <i class="fas fa-calendar-plus me-1"></i>
+                                    Created {{ $contact->created_at->diffForHumans() }}
+                                </span>
+                                @if ($contact->updated_at != $contact->created_at)
+                                    <span class="badge bg-light text-dark border">
+                                        <i class="fas fa-calendar-check me-1"></i>
+                                        Updated {{ $contact->updated_at->diffForHumans() }}
+                                    </span>
+                                @endif
+                            </div>
                         </div>
                     </div>
 
                     <!-- Contact Details -->
-                    <div class="space-y-6">
-                        <!-- Email -->
-                        <div>
-                            <label class="text-sm font-medium text-gray-500">Email Address</label>
-                            <div class="mt-1 flex items-center">
-                                <i class="fas fa-envelope text-gray-400 mr-3"></i>
-                                <a href="mailto:{{ $contact->email }}" class="text-blue-600 hover:text-blue-900">
-                                    {{ $contact->email }}
-                                </a>
+                    <div class="row g-4">
+                        <!-- Email Card -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border">
+                                <div class="card-header bg-light d-flex align-items-center">
+                                    <i class="fas fa-envelope text-primary me-2"></i>
+                                    <strong class="card-title mb-0">Email Address</strong>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 me-3">
+                                            <i class="fas fa-at text-muted fs-4"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <a href="mailto:{{ $contact->email }}"
+                                                class="text-decoration-none text-primary fw-medium d-block mb-1">
+                                                {{ $contact->email }}
+                                            </a>
+                                            <small class="text-muted">Click to send email</small>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Contact Number -->
-                        <div>
-                            <label class="text-sm font-medium text-gray-500">Contact Number</label>
-                            <div class="mt-1 flex items-center">
-                                <i class="fas fa-phone text-gray-400 mr-3"></i>
-                                <span class="text-gray-900">{{ $contact->contact }}</span>
+                        <!-- Contact Number Card -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border">
+                                <div class="card-header bg-light d-flex align-items-center">
+                                    <i class="fas fa-phone text-success me-2"></i>
+                                    <strong class="card-title mb-0">Contact Number</strong>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 me-3">
+                                            <i class="fas fa-mobile-alt text-muted fs-4"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <span class="fw-medium text-dark d-block mb-1 fs-5">
+                                                {{ $contact->contact }}
+                                            </span>
+                                            <small class="text-muted">9-digit contact number</small>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Address -->
-                        @if($contact->address)
-                        <div>
-                            <label class="text-sm font-medium text-gray-500">Address</label>
-                            <div class="mt-1 flex">
-                                <i class="fas fa-map-marker-alt text-gray-400 mr-3 mt-1"></i>
-                                <p class="text-gray-900">{{ $contact->address }}</p>
+                        <!-- Address Card (if exists) -->
+                        @if ($contact->address)
+                            <div class="col-12">
+                                <div class="card border">
+                                    <div class="card-header bg-light d-flex align-items-center">
+                                        <i class="fas fa-map-marker-alt text-warning me-2"></i>
+                                        <strong class="card-title mb-0">Address</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 me-3">
+                                                <i class="fas fa-home text-muted fs-4"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <p class="mb-0 text-dark">{{ $contact->address }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
                         @endif
 
-                        <!-- Metadata -->
-                        <div class="pt-6 border-t border-gray-200">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-500">
-                                <div>
-                                    <i class="fas fa-calendar-plus mr-2"></i>
-                                    Created: {{ $contact->created_at->format('d/m/Y H:i') }}
+                        <!-- Metadata Card -->
+                        <div class="col-12">
+                            <div class="card border">
+                                <div class="card-header bg-light d-flex align-items-center">
+                                    <i class="fas fa-history text-secondary me-2"></i>
+                                    <strong class="card-title mb-0">Record Information</strong>
                                 </div>
-                                <div>
-                                    <i class="fas fa-calendar-check mr-2"></i>
-                                    Last Updated: {{ $contact->updated_at->format('d/m/Y H:i') }}
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3 mb-md-0">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-calendar-plus text-success me-2"></i>
+                                                <span class="fw-medium me-2">Created:</span>
+                                            </div>
+                                            <div class="ms-4">
+                                                <div class="text-dark">{{ $contact->created_at->format('F d, Y') }}
+                                                </div>
+                                                <small
+                                                    class="text-muted">{{ $contact->created_at->format('h:i A') }}</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-calendar-check text-primary me-2"></i>
+                                                <span class="fw-medium me-2">Last Updated:</span>
+                                            </div>
+                                            <div class="ms-4">
+                                                <div class="text-dark">{{ $contact->updated_at->format('F d, Y') }}
+                                                </div>
+                                                <small
+                                                    class="text-muted">{{ $contact->updated_at->format('h:i A') }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="mt-8 pt-6 border-t border-gray-200 flex justify-between">
-                        <a href="{{ route('contacts.edit', $contact->id) }}"
-                           class="inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-yellow-700 active:bg-yellow-900 focus:outline-none focus:border-yellow-900 focus:ring ring-yellow-300 disabled:opacity-25 transition ease-in-out duration-150">
-                            <i class="fas fa-edit mr-2"></i>Edit
-                        </a>
+                    <div class="mt-4 pt-3 border-top">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="{{ route('contacts.index') }}"
+                                    class="btn btn-outline-secondary d-flex align-items-center">
+                                    <i class="fas fa-list me-2"></i>View All Contacts
+                                </a>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a href="{{ route('contacts.edit', $contact->id) }}"
+                                    class="btn btn-warning d-flex align-items-center">
+                                    <i class="fas fa-edit me-2"></i>Edit Contact
+                                </a>
+                                <button type="button"
+                                    onclick="confirmDelete({{ $contact->id }}, '{{ addslashes($contact->name) }}')"
+                                    class="btn btn-danger d-flex align-items-center">
+                                    <i class="fas fa-trash me-2"></i>Delete Contact
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                        <button type="button"
-                                onclick="confirmDelete({{ $contact->id }}, '{{ addslashes($contact->name) }}')"
-                                class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 active:bg-red-900 focus:outline-none focus:border-red-900 focus:ring ring-red-300 disabled:opacity-25 transition ease-in-out duration-150">
-                            <i class="fas fa-trash mr-2"></i>Delete
-                        </button>
+            <!-- Quick Actions Card -->
+            <div class="card shadow-sm mt-4 border">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0 d-flex align-items-center">
+                        <i class="fas fa-bolt text-warning me-2"></i>Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <a href="mailto:{{ $contact->email }}"
+                                class="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center">
+                                <i class="fas fa-paper-plane me-2"></i>Send Email
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="tel:{{ $contact->contact }}"
+                                class="btn btn-outline-success w-100 d-flex align-items-center justify-content-center">
+                                <i class="fas fa-phone-alt me-2"></i>Call Contact
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{{ route('contacts.create') }}"
+                                class="btn btn-outline-info w-100 d-flex align-items-center justify-content-center">
+                                <i class="fas fa-user-plus me-2"></i>Add New Contact
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</x-app-layout>
 
-    @section('scripts')
+@push('scripts')
     <script>
         function confirmDelete(id, name) {
+            // Use Bootstrap modal for better UX (optional)
             if (confirm(`Are you sure you want to delete the contact "${name}"? This action cannot be undone.`)) {
                 const form = document.createElement('form');
                 form.method = 'POST';
@@ -134,6 +256,55 @@
                 form.submit();
             }
         }
+
+        // Copy to clipboard functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add copy buttons to contact info
+            const emailElement = document.querySelector('a[href^="mailto:"]');
+            const contactElement = document.querySelector('.card-body .fw-medium.text-dark');
+
+            if (emailElement) {
+                const copyEmailBtn = document.createElement('button');
+                copyEmailBtn.className = 'btn btn-sm btn-outline-secondary ms-2';
+                copyEmailBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                copyEmailBtn.title = 'Copy email';
+                copyEmailBtn.onclick = function(e) {
+                    e.preventDefault();
+                    navigator.clipboard.writeText('{{ $contact->email }}').then(() => {
+                        const originalHTML = copyEmailBtn.innerHTML;
+                        copyEmailBtn.innerHTML = '<i class="fas fa-check"></i>';
+                        copyEmailBtn.classList.remove('btn-outline-secondary');
+                        copyEmailBtn.classList.add('btn-success');
+                        setTimeout(() => {
+                            copyEmailBtn.innerHTML = originalHTML;
+                            copyEmailBtn.classList.remove('btn-success');
+                            copyEmailBtn.classList.add('btn-outline-secondary');
+                        }, 2000);
+                    });
+                };
+                emailElement.parentNode.appendChild(copyEmailBtn);
+            }
+
+            if (contactElement) {
+                const copyContactBtn = document.createElement('button');
+                copyContactBtn.className = 'btn btn-sm btn-outline-secondary ms-2';
+                copyContactBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                copyContactBtn.title = 'Copy contact number';
+                copyContactBtn.onclick = function() {
+                    navigator.clipboard.writeText('{{ $contact->contact }}').then(() => {
+                        const originalHTML = copyContactBtn.innerHTML;
+                        copyContactBtn.innerHTML = '<i class="fas fa-check"></i>';
+                        copyContactBtn.classList.remove('btn-outline-secondary');
+                        copyContactBtn.classList.add('btn-success');
+                        setTimeout(() => {
+                            copyContactBtn.innerHTML = originalHTML;
+                            copyContactBtn.classList.remove('btn-success');
+                            copyContactBtn.classList.add('btn-outline-secondary');
+                        }, 2000);
+                    });
+                };
+                contactElement.parentNode.appendChild(copyContactBtn);
+            }
+        });
     </script>
-    @endsection
-</x-app-layout>
+@endpush
