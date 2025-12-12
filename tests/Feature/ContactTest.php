@@ -14,7 +14,7 @@ class ContactTest extends TestCase
         parent::setUp();
         $this->user = User::factory()->create([
             'name' => 'admin',
-            'email' => 'admin@example.com',
+            'email' => 'admin@alfasoft.com',
             'password' => bcrypt('123456'),
         ]);
     }
@@ -31,12 +31,12 @@ class ContactTest extends TestCase
     {
         $response = $this->actingAs($this->user)->post('/contacts', [
             'name' => 'John Doe',
-            'email' => 'john@example.com',
+            'email' => 'admin@alfasoft.com',
             'phone' => '123456789',
         ]);
 
         $response->assertRedirect('/contacts');
-        $this->assertDatabaseHas('contacts', ['email' => 'john@example.com']);
+        $this->assertDatabaseHas('contacts', ['email' => 'admin@alfasoft.com']);
     }
 
     /** @test */
