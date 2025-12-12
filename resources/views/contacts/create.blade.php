@@ -151,7 +151,7 @@
                 }
 
                 addressTextarea.addEventListener('input', updateCounter);
-                updateCounter(); // Initial call
+                updateCounter(); // Initial call ..
             }
 
             // Required field indicator
