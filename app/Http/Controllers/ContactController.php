@@ -65,6 +65,10 @@ class ContactController extends Controller
         ]);
 
         try {
+            if (empty(trim($validatedData['address']))) {
+                $validatedData['address'] = null;
+            }
+
             Contact::create($validatedData);
 
             return redirect()->route('contacts.index')
@@ -128,6 +132,10 @@ class ContactController extends Controller
         ]);
 
         try {
+            if (isset($validatedData['address']) && empty(trim($validatedData['address']))) {
+                $validatedData['address'] = null;
+            }
+
             $contact->update($validatedData);
 
             return redirect()->route('contacts.index')
